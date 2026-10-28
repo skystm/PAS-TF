@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.9.xsd">
+
+    <changeSet id="01-create-aeroporto" author="voo">
+        <createTable tableName="aeroporto">
+            <column name="codigo" type="VARCHAR(10)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="nome" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="vagas_estacionamento" type="INT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="02-create-aerovia" author="voo">
+        <createTable tableName="aerovia">
+            <column name="id" type="VARCHAR(10)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="origem_codigo" type="VARCHAR(10)">
+                <constraints nullable="false" foreignKeyName="fk_aerovia_origem" references="aeroporto(codigo)"/>
+            </column>
+            <column name="destino_codigo" type="VARCHAR(10)">
+                <constraints nullable="false" foreignKeyName="fk_aerovia_destino" references="aeroporto(codigo)"/>
+            </column>
+            <column name="distancia" type="DOUBLE">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="03-create-piloto" author="voo">
+        <createTable tableName="piloto">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="registro" type="VARCHAR(50)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="nome" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="04-create-aeronave" author="voo">
+        <createTable tableName="aeronave">
+            <column name="prefixo" type="VARCHAR(10)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="tipo" type="VARCHAR(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="velocidade_cruzeiro" type="DOUBLE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="autonomia" type="DOUBLE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="empresa_manutencao" type="VARCHAR(255)"/>
+            <column name="companhia_aerea" type="VARCHAR(255)"/>
+            <column name="capacidade_passageiros" type="INT"/>
+            <column name="capacidade_carga_toneladas" type="DOUBLE"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="05-create-plano-voo" author="voo">
+        <createTable tableName="plano_voo">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="piloto_id" type="BIGINT">
+                <constraints nullable="false" foreignKeyName="fk_plano_piloto" references="piloto(id)"/>
+            </column>
+            <column name="aeronave_prefixo" type="VARCHAR(10)">
+                <constraints nullable="false" foreignKeyName="fk_plano_aeronave" references="aeronave(prefixo)"/>
+            </column>
+            <column name="origem_codigo" type="VARCHAR(10)">
+                <constraints nullable="false" foreignKeyName="fk_plano_origem" references="aeroporto(codigo)"/>
+            </column>
+            <column name="destino_codigo" type="VARCHAR(10)">
+                <constraints nullable="false" foreignKeyName="fk_plano_destino" references="aeroporto(codigo)"/>
+            </column>
+            <column name="data_hora_partida" type="TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="situacao" type="VARCHAR(20)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="06-create-trecho-voo" author="voo">
+        <createTable tableName="trecho_voo">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="plano_voo_id" type="BIGINT">
+                <constraints nullable="false" foreignKeyName="fk_trecho_plano" references="plano_voo(id)"/>
+            </column>
+            <column name="ordem" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="aerovia_id" type="VARCHAR(10)">
+                <constraints nullable="false" foreignKeyName="fk_trecho_aerovia" references="aerovia(id)"/>
+            </column>
+            <column name="altitude" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="hora_entrada" type="TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="hora_saida" type="TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="tipo_passagem" type="VARCHAR(10)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="numero_vaga" type="INT"/>
+            <column name="tempo_permanencia" type="INT"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="07-create-reserva-aerovia" author="voo">
+        <createTable tableName="reserva_aerovia">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="aerovia_id" type="VARCHAR(10)">
+                <constraints nullable="false" foreignKeyName="fk_res_aerovia" references="aerovia(id)"/>
+            </column>
+            <column name="altitude" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="slot_inicio" type="TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="slot_fim" type="TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="plano_voo_id" type="BIGINT">
+                <constraints nullable="false" foreignKeyName="fk_resaer_plano" references="plano_voo(id)"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="08-create-reserva-vaga" author="voo">
+        <createTable tableName="reserva_vaga">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="aeroporto_codigo" type="VARCHAR(10)">
+                <constraints nullable="false" foreignKeyName="fk_resvaga_aeroporto" references="aeroporto(codigo)"/>
+            </column>
+            <column name="numero_vaga" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="slot_inicio" type="TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="slot_fim" type="TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="plano_voo_id" type="BIGINT">
+                <constraints nullable="false" foreignKeyName="fk_resvaga_plano" references="plano_voo(id)"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+</databaseChangeLog>

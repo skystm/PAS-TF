@@ -1,0 +1,7 @@
+databaseChangeLog:
+  - include:
+      file: db/changelog/01-schema.xml
+      relativeToChangelogFile: false
+  - include:
+      file: db/changelog/02-seed-data.xml
+      relativeToChangelogFile: false

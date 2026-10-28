@@ -1,0 +1,560 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    SEED DATA - DATA DE REFERÊNCIA: 2026-11-15
+    Aerovias com ocupação nessa data: R1, R2, R3, R4, R6, R7 (6 de 8 = 75%)
+    Aerovias livres: R5 (CWB->FLN), R8 (FLN->POA)
+-->
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.9.xsd">
+
+    <!-- AEROPORTOS -->
+    <changeSet id="seed-aeroportos" author="voo">
+        <insert tableName="aeroporto">
+            <column name="codigo" value="POA"/>
+            <column name="nome" value="Aeroporto Internacional Salgado Filho - Porto Alegre"/>
+            <column name="vagas_estacionamento" valueNumeric="41"/>
+        </insert>
+        <insert tableName="aeroporto">
+            <column name="codigo" value="FLN"/>
+            <column name="nome" value="Aeroporto Internacional de Florianópolis/Hercílio Luz"/>
+            <column name="vagas_estacionamento" valueNumeric="16"/>
+        </insert>
+        <insert tableName="aeroporto">
+            <column name="codigo" value="CWB"/>
+            <column name="nome" value="Aeroporto Internacional Afonso Pena - Curitiba"/>
+            <column name="vagas_estacionamento" valueNumeric="26"/>
+        </insert>
+        <insert tableName="aeroporto">
+            <column name="codigo" value="GRU"/>
+            <column name="nome" value="Aeroporto Internacional de São Paulo/Guarulhos"/>
+            <column name="vagas_estacionamento" valueNumeric="115"/>
+        </insert>
+    </changeSet>
+
+    <!-- AEROVIAS -->
+    <changeSet id="seed-aerovias" author="voo">
+        <insert tableName="aerovia">
+            <column name="id" value="R1"/>
+            <column name="origem_codigo" value="POA"/>
+            <column name="destino_codigo" value="FLN"/>
+            <column name="distancia" valueNumeric="363"/>
+        </insert>
+        <insert tableName="aerovia">
+            <column name="id" value="R2"/>
+            <column name="origem_codigo" value="POA"/>
+            <column name="destino_codigo" value="GRU"/>
+            <column name="distancia" valueNumeric="865"/>
+        </insert>
+        <insert tableName="aerovia">
+            <column name="id" value="R3"/>
+            <column name="origem_codigo" value="GRU"/>
+            <column name="destino_codigo" value="POA"/>
+            <column name="distancia" valueNumeric="865"/>
+        </insert>
+        <insert tableName="aerovia">
+            <column name="id" value="R4"/>
+            <column name="origem_codigo" value="FLN"/>
+            <column name="destino_codigo" value="CWB"/>
+            <column name="distancia" valueNumeric="245"/>
+        </insert>
+        <insert tableName="aerovia">
+            <column name="id" value="R5"/>
+            <column name="origem_codigo" value="CWB"/>
+            <column name="destino_codigo" value="FLN"/>
+            <column name="distancia" valueNumeric="245"/>
+        </insert>
+        <insert tableName="aerovia">
+            <column name="id" value="R6"/>
+            <column name="origem_codigo" value="CWB"/>
+            <column name="destino_codigo" value="GRU"/>
+            <column name="distancia" valueNumeric="360"/>
+        </insert>
+        <insert tableName="aerovia">
+            <column name="id" value="R7"/>
+            <column name="origem_codigo" value="GRU"/>
+            <column name="destino_codigo" value="CWB"/>
+            <column name="distancia" valueNumeric="360"/>
+        </insert>
+        <insert tableName="aerovia">
+            <column name="id" value="R8"/>
+            <column name="origem_codigo" value="FLN"/>
+            <column name="destino_codigo" value="POA"/>
+            <column name="distancia" valueNumeric="363"/>
+        </insert>
+    </changeSet>
+
+    <!-- PILOTOS -->
+    <changeSet id="seed-pilotos" author="voo">
+        <insert tableName="piloto">
+            <column name="id" valueNumeric="1"/>
+            <column name="registro" value="PIL001"/>
+            <column name="nome" value="Carlos Alberto Silva"/>
+        </insert>
+        <insert tableName="piloto">
+            <column name="id" valueNumeric="2"/>
+            <column name="registro" value="PIL002"/>
+            <column name="nome" value="Ana Paula Souza"/>
+        </insert>
+        <insert tableName="piloto">
+            <column name="id" valueNumeric="3"/>
+            <column name="registro" value="PIL003"/>
+            <column name="nome" value="Roberto Mendes"/>
+        </insert>
+        <insert tableName="piloto">
+            <column name="id" valueNumeric="4"/>
+            <column name="registro" value="PIL004"/>
+            <column name="nome" value="Fernanda Lima"/>
+        </insert>
+    </changeSet>
+
+    <!-- AERONAVES: 1 particular, 2 passageiros, 1 carga -->
+    <changeSet id="seed-aeronaves" author="voo">
+        <!-- Particular: altitudes 25000, 26000, 27000; vel=500km/h; autonomia=2000km -->
+        <insert tableName="aeronave">
+            <column name="prefixo" value="PR-ABC"/>
+            <column name="tipo" value="PARTICULAR"/>
+            <column name="velocidade_cruzeiro" valueNumeric="500"/>
+            <column name="autonomia" valueNumeric="2000"/>
+            <column name="empresa_manutencao" value="AeroTech Manutenção Ltda"/>
+        </insert>
+        <!-- Passageiros 1: altitudes >= 28000; vel=850km/h; autonomia=5000km -->
+        <insert tableName="aeronave">
+            <column name="prefixo" value="PP-GLA"/>
+            <column name="tipo" value="PASSAGEIROS"/>
+            <column name="velocidade_cruzeiro" valueNumeric="850"/>
+            <column name="autonomia" valueNumeric="5000"/>
+            <column name="companhia_aerea" value="LATAM Airlines"/>
+            <column name="capacidade_passageiros" valueNumeric="180"/>
+        </insert>
+        <!-- Passageiros 2: altitudes >= 28000; vel=900km/h; autonomia=6000km -->
+        <insert tableName="aeronave">
+            <column name="prefixo" value="PR-XYZ"/>
+            <column name="tipo" value="PASSAGEIROS"/>
+            <column name="velocidade_cruzeiro" valueNumeric="900"/>
+            <column name="autonomia" valueNumeric="6000"/>
+            <column name="companhia_aerea" value="GOL Linhas Aéreas"/>
+            <column name="capacidade_passageiros" valueNumeric="150"/>
+        </insert>
+        <!-- Carga: qualquer altitude, somente 00:00-05:59; vel=750km/h; autonomia=4000km -->
+        <insert tableName="aeronave">
+            <column name="prefixo" value="PT-CRG"/>
+            <column name="tipo" value="CARGA"/>
+            <column name="velocidade_cruzeiro" valueNumeric="750"/>
+            <column name="autonomia" valueNumeric="4000"/>
+            <column name="companhia_aerea" value="Azul Cargo"/>
+            <column name="capacidade_carga_toneladas" valueNumeric="45"/>
+        </insert>
+    </changeSet>
+
+    <!--
+        PLANOS APROVADOS - DATA DE REFERÊNCIA 2026-11-15
+
+        Plano 1: PP-GLA, POA->FLN via R1, partida 08:00
+            - R1 (363km / 850km/h = ~25.6 min), entrada 08:00, saída 08:26
+            - altitude 28000
+            - pouso FLN vaga 1, permanência 60 min (08:26 - 09:26)
+            - Slots R1 ocupados: 08:00-09:00
+            - Slots vaga 1 FLN: 08:00-09:00, 09:00-10:00
+
+        Plano 2: PR-XYZ, POA->GRU via R2, partida 09:00
+            - R2 (865km / 900km/h ≈ 57.7 min), entrada 09:00, saída 09:58
+            - altitude 29000
+            - pouso GRU vaga 1, permanência 120 min (09:58 - 11:58)
+            - Slots R2 ocupados: 09:00-10:00
+            - Slots vaga 1 GRU: 09:00-10:00, 10:00-11:00, 11:00-12:00
+
+        Plano 3: PP-GLA, GRU->POA via R3, partida 13:00
+            - R3 (865km / 850km/h ≈ 61.1 min), entrada 13:00, saída 14:01
+            - altitude 30000
+            - pouso POA vaga 1, permanência 60 min
+            - Slots R3 ocupados: 13:00-14:00, 14:00-15:00
+            - Slots vaga 1 POA: 14:00-15:00, 15:00-16:00
+
+        Plano 4: PR-XYZ, FLN->CWB via R4, partida 10:00
+            - R4 (245km / 900km/h ≈ 16.3 min), entrada 10:00, saída 10:16
+            - altitude 28000
+            - pouso CWB vaga 1, permanência 60 min
+            - Slots R4 ocupados: 10:00-11:00
+            - Slots vaga 1 CWB: 10:00-11:00, 11:00-12:00
+
+        Plano 5: PR-XYZ, CWB->GRU via R6, partida 14:00
+            - R6 (360km / 900km/h = 24 min), entrada 14:00, saída 14:24
+            - altitude 29000
+            - pouso GRU vaga 2, permanência 90 min
+            - Slots R6 ocupados: 14:00-15:00
+            - Slots vaga 2 GRU: 14:00-15:00, 15:00-16:00
+
+        Plano 6: PP-GLA, GRU->CWB via R7, partida 16:00
+            - R7 (360km / 850km/h ≈ 25.4 min), entrada 16:00, saída 16:25
+            - altitude 28000
+            - pouso CWB vaga 2, permanência 60 min
+            - Slots R7 ocupados: 16:00-17:00
+            - Slots vaga 2 CWB: 16:00-17:00, 17:00-18:00
+
+        Plano 7 (futuro, para demonstrar cancelamento): PR-XYZ, POA->GRU via R2, partida 2026-12-01 10:00
+            - altitude 30000, pouso GRU vaga 3, permanência 60 min
+    -->
+
+    <!-- PLANO 1: PP-GLA, POA->FLN, 08:00 -->
+    <changeSet id="seed-plano-1" author="voo">
+        <insert tableName="plano_voo">
+            <column name="id" valueNumeric="1"/>
+            <column name="piloto_id" valueNumeric="1"/>
+            <column name="aeronave_prefixo" value="PP-GLA"/>
+            <column name="origem_codigo" value="POA"/>
+            <column name="destino_codigo" value="FLN"/>
+            <column name="data_hora_partida" valueDate="2026-11-15T08:00:00"/>
+            <column name="situacao" value="APROVADO"/>
+        </insert>
+        <insert tableName="trecho_voo">
+            <column name="id" valueNumeric="1"/>
+            <column name="plano_voo_id" valueNumeric="1"/>
+            <column name="ordem" valueNumeric="0"/>
+            <column name="aerovia_id" value="R1"/>
+            <column name="altitude" valueNumeric="28000"/>
+            <column name="hora_entrada" valueDate="2026-11-15T08:00:00"/>
+            <column name="hora_saida" valueDate="2026-11-15T08:25:38"/>
+            <column name="tipo_passagem" value="POUSO"/>
+            <column name="numero_vaga" valueNumeric="1"/>
+            <column name="tempo_permanencia" valueNumeric="60"/>
+        </insert>
+        <!-- Reserva aerovia R1 slot 08:00-09:00 -->
+        <insert tableName="reserva_aerovia">
+            <column name="aerovia_id" value="R1"/>
+            <column name="altitude" valueNumeric="28000"/>
+            <column name="slot_inicio" valueDate="2026-11-15T08:00:00"/>
+            <column name="slot_fim" valueDate="2026-11-15T09:00:00"/>
+            <column name="plano_voo_id" valueNumeric="1"/>
+        </insert>
+        <!-- Reserva vaga 1 FLN 08:00-09:00 e 09:00-10:00 -->
+        <insert tableName="reserva_vaga">
+            <column name="aeroporto_codigo" value="FLN"/>
+            <column name="numero_vaga" valueNumeric="1"/>
+            <column name="slot_inicio" valueDate="2026-11-15T08:00:00"/>
+            <column name="slot_fim" valueDate="2026-11-15T09:00:00"/>
+            <column name="plano_voo_id" valueNumeric="1"/>
+        </insert>
+        <insert tableName="reserva_vaga">
+            <column name="aeroporto_codigo" value="FLN"/>
+            <column name="numero_vaga" valueNumeric="1"/>
+            <column name="slot_inicio" valueDate="2026-11-15T09:00:00"/>
+            <column name="slot_fim" valueDate="2026-11-15T10:00:00"/>
+            <column name="plano_voo_id" valueNumeric="1"/>
+        </insert>
+    </changeSet>
+
+    <!-- PLANO 2: PR-XYZ, POA->GRU, 09:00 -->
+    <changeSet id="seed-plano-2" author="voo">
+        <insert tableName="plano_voo">
+            <column name="id" valueNumeric="2"/>
+            <column name="piloto_id" valueNumeric="2"/>
+            <column name="aeronave_prefixo" value="PR-XYZ"/>
+            <column name="origem_codigo" value="POA"/>
+            <column name="destino_codigo" value="GRU"/>
+            <column name="data_hora_partida" valueDate="2026-11-15T09:00:00"/>
+            <column name="situacao" value="APROVADO"/>
+        </insert>
+        <insert tableName="trecho_voo">
+            <column name="id" valueNumeric="2"/>
+            <column name="plano_voo_id" valueNumeric="2"/>
+            <column name="ordem" valueNumeric="0"/>
+            <column name="aerovia_id" value="R2"/>
+            <column name="altitude" valueNumeric="29000"/>
+            <column name="hora_entrada" valueDate="2026-11-15T09:00:00"/>
+            <column name="hora_saida" valueDate="2026-11-15T09:57:40"/>
+            <column name="tipo_passagem" value="POUSO"/>
+            <column name="numero_vaga" valueNumeric="1"/>
+            <column name="tempo_permanencia" valueNumeric="120"/>
+        </insert>
+        <!-- Reserva aerovia R2 slot 09:00-10:00 -->
+        <insert tableName="reserva_aerovia">
+            <column name="aerovia_id" value="R2"/>
+            <column name="altitude" valueNumeric="29000"/>
+            <column name="slot_inicio" valueDate="2026-11-15T09:00:00"/>
+            <column name="slot_fim" valueDate="2026-11-15T10:00:00"/>
+            <column name="plano_voo_id" valueNumeric="2"/>
+        </insert>
+        <!-- Reserva vaga 1 GRU: 09:00-10:00, 10:00-11:00, 11:00-12:00 -->
+        <insert tableName="reserva_vaga">
+            <column name="aeroporto_codigo" value="GRU"/>
+            <column name="numero_vaga" valueNumeric="1"/>
+            <column name="slot_inicio" valueDate="2026-11-15T09:00:00"/>
+            <column name="slot_fim" valueDate="2026-11-15T10:00:00"/>
+            <column name="plano_voo_id" valueNumeric="2"/>
+        </insert>
+        <insert tableName="reserva_vaga">
+            <column name="aeroporto_codigo" value="GRU"/>
+            <column name="numero_vaga" valueNumeric="1"/>
+            <column name="slot_inicio" valueDate="2026-11-15T10:00:00"/>
+            <column name="slot_fim" valueDate="2026-11-15T11:00:00"/>
+            <column name="plano_voo_id" valueNumeric="2"/>
+        </insert>
+        <insert tableName="reserva_vaga">
+            <column name="aeroporto_codigo" value="GRU"/>
+            <column name="numero_vaga" valueNumeric="1"/>
+            <column name="slot_inicio" valueDate="2026-11-15T11:00:00"/>
+            <column name="slot_fim" valueDate="2026-11-15T12:00:00"/>
+            <column name="plano_voo_id" valueNumeric="2"/>
+        </insert>
+    </changeSet>
+
+    <!-- PLANO 3: PP-GLA, GRU->POA, 13:00 -->
+    <changeSet id="seed-plano-3" author="voo">
+        <insert tableName="plano_voo">
+            <column name="id" valueNumeric="3"/>
+            <column name="piloto_id" valueNumeric="1"/>
+            <column name="aeronave_prefixo" value="PP-GLA"/>
+            <column name="origem_codigo" value="GRU"/>
+            <column name="destino_codigo" value="POA"/>
+            <column name="data_hora_partida" valueDate="2026-11-15T13:00:00"/>
+            <column name="situacao" value="APROVADO"/>
+        </insert>
+        <insert tableName="trecho_voo">
+            <column name="id" valueNumeric="3"/>
+            <column name="plano_voo_id" valueNumeric="3"/>
+            <column name="ordem" valueNumeric="0"/>
+            <column name="aerovia_id" value="R3"/>
+            <column name="altitude" valueNumeric="30000"/>
+            <column name="hora_entrada" valueDate="2026-11-15T13:00:00"/>
+            <column name="hora_saida" valueDate="2026-11-15T14:01:10"/>
+            <column name="tipo_passagem" value="POUSO"/>
+            <column name="numero_vaga" valueNumeric="1"/>
+            <column name="tempo_permanencia" valueNumeric="60"/>
+        </insert>
+        <!-- Reserva R3: 13:00-14:00, 14:00-15:00 -->
+        <insert tableName="reserva_aerovia">
+            <column name="aerovia_id" value="R3"/>
+            <column name="altitude" valueNumeric="30000"/>
+            <column name="slot_inicio" valueDate="2026-11-15T13:00:00"/>
+            <column name="slot_fim" valueDate="2026-11-15T14:00:00"/>
+            <column name="plano_voo_id" valueNumeric="3"/>
+        </insert>
+        <insert tableName="reserva_aerovia">
+            <column name="aerovia_id" value="R3"/>
+            <column name="altitude" valueNumeric="30000"/>
+            <column name="slot_inicio" valueDate="2026-11-15T14:00:00"/>
+            <column name="slot_fim" valueDate="2026-11-15T15:00:00"/>
+            <column name="plano_voo_id" valueNumeric="3"/>
+        </insert>
+        <!-- Reserva vaga 1 POA: 14:00-15:00, 15:00-16:00 -->
+        <insert tableName="reserva_vaga">
+            <column name="aeroporto_codigo" value="POA"/>
+            <column name="numero_vaga" valueNumeric="1"/>
+            <column name="slot_inicio" valueDate="2026-11-15T14:00:00"/>
+            <column name="slot_fim" valueDate="2026-11-15T15:00:00"/>
+            <column name="plano_voo_id" valueNumeric="3"/>
+        </insert>
+        <insert tableName="reserva_vaga">
+            <column name="aeroporto_codigo" value="POA"/>
+            <column name="numero_vaga" valueNumeric="1"/>
+            <column name="slot_inicio" valueDate="2026-11-15T15:00:00"/>
+            <column name="slot_fim" valueDate="2026-11-15T16:00:00"/>
+            <column name="plano_voo_id" valueNumeric="3"/>
+        </insert>
+    </changeSet>
+
+    <!-- PLANO 4: PR-XYZ, FLN->CWB via R4, 10:00 -->
+    <changeSet id="seed-plano-4" author="voo">
+        <insert tableName="plano_voo">
+            <column name="id" valueNumeric="4"/>
+            <column name="piloto_id" valueNumeric="3"/>
+            <column name="aeronave_prefixo" value="PR-XYZ"/>
+            <column name="origem_codigo" value="FLN"/>
+            <column name="destino_codigo" value="CWB"/>
+            <column name="data_hora_partida" valueDate="2026-11-15T10:00:00"/>
+            <column name="situacao" value="APROVADO"/>
+        </insert>
+        <insert tableName="trecho_voo">
+            <column name="id" valueNumeric="4"/>
+            <column name="plano_voo_id" valueNumeric="4"/>
+            <column name="ordem" valueNumeric="0"/>
+            <column name="aerovia_id" value="R4"/>
+            <column name="altitude" valueNumeric="28000"/>
+            <column name="hora_entrada" valueDate="2026-11-15T10:00:00"/>
+            <column name="hora_saida" valueDate="2026-11-15T10:16:20"/>
+            <column name="tipo_passagem" value="POUSO"/>
+            <column name="numero_vaga" valueNumeric="1"/>
+            <column name="tempo_permanencia" valueNumeric="60"/>
+        </insert>
+        <!-- Reserva R4: 10:00-11:00 -->
+        <insert tableName="reserva_aerovia">
+            <column name="aerovia_id" value="R4"/>
+            <column name="altitude" valueNumeric="28000"/>
+            <column name="slot_inicio" valueDate="2026-11-15T10:00:00"/>
+            <column name="slot_fim" valueDate="2026-11-15T11:00:00"/>
+            <column name="plano_voo_id" valueNumeric="4"/>
+        </insert>
+        <!-- Reserva vaga 1 CWB: 10:00-11:00, 11:00-12:00 -->
+        <insert tableName="reserva_vaga">
+            <column name="aeroporto_codigo" value="CWB"/>
+            <column name="numero_vaga" valueNumeric="1"/>
+            <column name="slot_inicio" valueDate="2026-11-15T10:00:00"/>
+            <column name="slot_fim" valueDate="2026-11-15T11:00:00"/>
+            <column name="plano_voo_id" valueNumeric="4"/>
+        </insert>
+        <insert tableName="reserva_vaga">
+            <column name="aeroporto_codigo" value="CWB"/>
+            <column name="numero_vaga" valueNumeric="1"/>
+            <column name="slot_inicio" valueDate="2026-11-15T11:00:00"/>
+            <column name="slot_fim" valueDate="2026-11-15T12:00:00"/>
+            <column name="plano_voo_id" valueNumeric="4"/>
+        </insert>
+    </changeSet>
+
+    <!-- PLANO 5: PR-XYZ, CWB->GRU via R6, 14:00 -->
+    <changeSet id="seed-plano-5" author="voo">
+        <insert tableName="plano_voo">
+            <column name="id" valueNumeric="5"/>
+            <column name="piloto_id" valueNumeric="2"/>
+            <column name="aeronave_prefixo" value="PR-XYZ"/>
+            <column name="origem_codigo" value="CWB"/>
+            <column name="destino_codigo" value="GRU"/>
+            <column name="data_hora_partida" valueDate="2026-11-15T14:00:00"/>
+            <column name="situacao" value="APROVADO"/>
+        </insert>
+        <insert tableName="trecho_voo">
+            <column name="id" valueNumeric="5"/>
+            <column name="plano_voo_id" valueNumeric="5"/>
+            <column name="ordem" valueNumeric="0"/>
+            <column name="aerovia_id" value="R6"/>
+            <column name="altitude" valueNumeric="29000"/>
+            <column name="hora_entrada" valueDate="2026-11-15T14:00:00"/>
+            <column name="hora_saida" valueDate="2026-11-15T14:24:00"/>
+            <column name="tipo_passagem" value="POUSO"/>
+            <column name="numero_vaga" valueNumeric="2"/>
+            <column name="tempo_permanencia" valueNumeric="90"/>
+        </insert>
+        <!-- Reserva R6: 14:00-15:00 -->
+        <insert tableName="reserva_aerovia">
+            <column name="aerovia_id" value="R6"/>
+            <column name="altitude" valueNumeric="29000"/>
+            <column name="slot_inicio" valueDate="2026-11-15T14:00:00"/>
+            <column name="slot_fim" valueDate="2026-11-15T15:00:00"/>
+            <column name="plano_voo_id" valueNumeric="5"/>
+        </insert>
+        <!-- Reserva vaga 2 GRU: 14:00-15:00, 15:00-16:00 -->
+        <insert tableName="reserva_vaga">
+            <column name="aeroporto_codigo" value="GRU"/>
+            <column name="numero_vaga" valueNumeric="2"/>
+            <column name="slot_inicio" valueDate="2026-11-15T14:00:00"/>
+            <column name="slot_fim" valueDate="2026-11-15T15:00:00"/>
+            <column name="plano_voo_id" valueNumeric="5"/>
+        </insert>
+        <insert tableName="reserva_vaga">
+            <column name="aeroporto_codigo" value="GRU"/>
+            <column name="numero_vaga" valueNumeric="2"/>
+            <column name="slot_inicio" valueDate="2026-11-15T15:00:00"/>
+            <column name="slot_fim" valueDate="2026-11-15T16:00:00"/>
+            <column name="plano_voo_id" valueNumeric="5"/>
+        </insert>
+    </changeSet>
+
+    <!-- PLANO 6: PP-GLA, GRU->CWB via R7, 16:00 -->
+    <changeSet id="seed-plano-6" author="voo">
+        <insert tableName="plano_voo">
+            <column name="id" valueNumeric="6"/>
+            <column name="piloto_id" valueNumeric="4"/>
+            <column name="aeronave_prefixo" value="PP-GLA"/>
+            <column name="origem_codigo" value="GRU"/>
+            <column name="destino_codigo" value="CWB"/>
+            <column name="data_hora_partida" valueDate="2026-11-15T16:00:00"/>
+            <column name="situacao" value="APROVADO"/>
+        </insert>
+        <insert tableName="trecho_voo">
+            <column name="id" valueNumeric="6"/>
+            <column name="plano_voo_id" valueNumeric="6"/>
+            <column name="ordem" valueNumeric="0"/>
+            <column name="aerovia_id" value="R7"/>
+            <column name="altitude" valueNumeric="28000"/>
+            <column name="hora_entrada" valueDate="2026-11-15T16:00:00"/>
+            <column name="hora_saida" valueDate="2026-11-15T16:25:24"/>
+            <column name="tipo_passagem" value="POUSO"/>
+            <column name="numero_vaga" valueNumeric="2"/>
+            <column name="tempo_permanencia" valueNumeric="60"/>
+        </insert>
+        <!-- Reserva R7: 16:00-17:00 -->
+        <insert tableName="reserva_aerovia">
+            <column name="aerovia_id" value="R7"/>
+            <column name="altitude" valueNumeric="28000"/>
+            <column name="slot_inicio" valueDate="2026-11-15T16:00:00"/>
+            <column name="slot_fim" valueDate="2026-11-15T17:00:00"/>
+            <column name="plano_voo_id" valueNumeric="6"/>
+        </insert>
+        <!-- Reserva vaga 2 CWB: 16:00-17:00, 17:00-18:00 -->
+        <insert tableName="reserva_vaga">
+            <column name="aeroporto_codigo" value="CWB"/>
+            <column name="numero_vaga" valueNumeric="2"/>
+            <column name="slot_inicio" valueDate="2026-11-15T16:00:00"/>
+            <column name="slot_fim" valueDate="2026-11-15T17:00:00"/>
+            <column name="plano_voo_id" valueNumeric="6"/>
+        </insert>
+        <insert tableName="reserva_vaga">
+            <column name="aeroporto_codigo" value="CWB"/>
+            <column name="numero_vaga" valueNumeric="2"/>
+            <column name="slot_inicio" valueDate="2026-11-15T17:00:00"/>
+            <column name="slot_fim" valueDate="2026-11-15T18:00:00"/>
+            <column name="plano_voo_id" valueNumeric="6"/>
+        </insert>
+    </changeSet>
+
+    <!-- PLANO 7: PR-XYZ, POA->GRU, FUTURO 2026-12-01 (para demonstrar cancelamento) -->
+    <changeSet id="seed-plano-7" author="voo">
+        <insert tableName="plano_voo">
+            <column name="id" valueNumeric="7"/>
+            <column name="piloto_id" valueNumeric="3"/>
+            <column name="aeronave_prefixo" value="PR-XYZ"/>
+            <column name="origem_codigo" value="POA"/>
+            <column name="destino_codigo" value="GRU"/>
+            <column name="data_hora_partida" valueDate="2026-12-01T10:00:00"/>
+            <column name="situacao" value="APROVADO"/>
+        </insert>
+        <insert tableName="trecho_voo">
+            <column name="id" valueNumeric="7"/>
+            <column name="plano_voo_id" valueNumeric="7"/>
+            <column name="ordem" valueNumeric="0"/>
+            <column name="aerovia_id" value="R2"/>
+            <column name="altitude" valueNumeric="30000"/>
+            <column name="hora_entrada" valueDate="2026-12-01T10:00:00"/>
+            <column name="hora_saida" valueDate="2026-12-01T10:57:40"/>
+            <column name="tipo_passagem" value="POUSO"/>
+            <column name="numero_vaga" valueNumeric="3"/>
+            <column name="tempo_permanencia" valueNumeric="60"/>
+        </insert>
+        <!-- Reserva R2: 10:00-11:00 (2026-12-01) -->
+        <insert tableName="reserva_aerovia">
+            <column name="aerovia_id" value="R2"/>
+            <column name="altitude" valueNumeric="30000"/>
+            <column name="slot_inicio" valueDate="2026-12-01T10:00:00"/>
+            <column name="slot_fim" valueDate="2026-12-01T11:00:00"/>
+            <column name="plano_voo_id" valueNumeric="7"/>
+        </insert>
+        <!-- Reserva vaga 3 GRU: 10:00-11:00, 11:00-12:00 -->
+        <insert tableName="reserva_vaga">
+            <column name="aeroporto_codigo" value="GRU"/>
+            <column name="numero_vaga" valueNumeric="3"/>
+            <column name="slot_inicio" valueDate="2026-12-01T10:00:00"/>
+            <column name="slot_fim" valueDate="2026-12-01T11:00:00"/>
+            <column name="plano_voo_id" valueNumeric="7"/>
+        </insert>
+        <insert tableName="reserva_vaga">
+            <column name="aeroporto_codigo" value="GRU"/>
+            <column name="numero_vaga" valueNumeric="3"/>
+            <column name="slot_inicio" valueDate="2026-12-01T11:00:00"/>
+            <column name="slot_fim" valueDate="2026-12-01T12:00:00"/>
+            <column name="plano_voo_id" valueNumeric="7"/>
+        </insert>
+    </changeSet>
+
+    <!-- Sequence reset -->
+    <changeSet id="seed-sequences" author="voo" dbms="postgresql">
+        <sql>SELECT setval('piloto_id_seq', 10, true);</sql>
+        <sql>SELECT setval('plano_voo_id_seq', 10, true);</sql>
+        <sql>SELECT setval('trecho_voo_id_seq', 10, true);</sql>
+        <sql>SELECT setval('reserva_aerovia_id_seq', 50, true);</sql>
+        <sql>SELECT setval('reserva_vaga_id_seq', 50, true);</sql>
+    </changeSet>
+
+</databaseChangeLog>
